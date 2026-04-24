@@ -39,6 +39,8 @@ export const geminiService = {
       { name: "gemini-flash-latest", useSearch: false }    // Legacy Fail-safe
     ];
     
+    let lastError = "All correlation tiers were bypassed.";
+    
     for (const model of models) {
       try {
         console.log(`[Sentinel AI 2.0] Analyzing via: ${model.name} (Search: ${model.useSearch})`);
@@ -73,10 +75,10 @@ export const geminiService = {
 
         if (result.text) {
           const parsed = JSON.parse(result.text);
-          // Simple validation of the return object
           if (parsed.summary && parsed.report) return parsed;
         }
       } catch (e: any) {
+        lastError = e.message;
         console.warn(`[Sentinel AI 2.0] ${model.name} bypassed:`, e.message);
         continue;
       }
@@ -84,8 +86,8 @@ export const geminiService = {
 
     // Ultimate Resilience Fallback
     return {
-      summary: "AI analysis was throttled. Reviewing telemetry manually is advised.",
-      report: `### Technical Advisory\nThe Sentinel AI researcher encountered a high-load state. Manually verify the indicator ${value} via VirusTotal and internal logs. Initial telemetry suggests checking for organization: ${telemetry?.vt?.as_owner || 'Unknown'}.`,
+      summary: "AI Infrastructure Warning: Pipeline restricted or API mismatch detected.",
+      report: `### System Diagnostic\nThe Sentinel AI researcher encountered a critical block. \n\n**ERROR_TRACE:** \`${lastError}\`\n\n**ACTION REQUIRED:** Verify that your \`GEMINI_API_KEY\` is correctly set in your hosting environment (Vercel/Render). Current telemetry for ${value} indicates checking organization: ${telemetry?.vt?.as_owner || 'Unknown'}.`,
       threatLevel: "Manual Review",
       confidenceScore: 0,
       tlp: "TLP:WHITE",

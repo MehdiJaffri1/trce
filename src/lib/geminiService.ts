@@ -43,7 +43,7 @@ export const geminiService = {
     
     for (const model of models) {
       try {
-        console.log(`[Sentinel AI 2.0] Analyzing via: ${model.name} (Search: ${model.useSearch})`);
+        console.log(`[TraceX AI 1.0] Analyzing via: ${model.name} (Search: ${model.useSearch})`);
         
         const config: any = {
           responseMimeType: "application/json",
@@ -79,7 +79,7 @@ export const geminiService = {
         }
       } catch (e: any) {
         lastError = e.message;
-        console.warn(`[Sentinel AI 2.0] ${model.name} bypassed:`, e.message);
+        console.warn(`[TraceX AI 1.0] ${model.name} bypassed:`, e.message);
         continue;
       }
     }
@@ -87,7 +87,7 @@ export const geminiService = {
     // Ultimate Resilience Fallback
     return {
       summary: "AI Infrastructure Warning: Pipeline restricted or API mismatch detected.",
-      report: `### System Diagnostic\nThe Sentinel AI researcher encountered a critical block. \n\n**ERROR_TRACE:** \`${lastError}\`\n\n**ACTION REQUIRED:** Verify that your \`GEMINI_API_KEY\` is correctly set in your hosting environment (Vercel/Render). Current telemetry for ${value} indicates checking organization: ${telemetry?.vt?.as_owner || 'Unknown'}.`,
+      report: `### System Diagnostic\nThe TraceX AI researcher encountered a critical block. \n\n**ERROR_TRACE:** \`${lastError}\`\n\n**ACTION REQUIRED:** Verify that your \`GEMINI_API_KEY\` is correctly set in your hosting environment (Vercel/Render). Current telemetry for ${value} indicates checking organization: ${telemetry?.vt?.as_owner || 'Unknown'}.`,
       threatLevel: "Manual Review",
       confidenceScore: 0,
       tlp: "TLP:WHITE",

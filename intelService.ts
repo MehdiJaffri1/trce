@@ -39,10 +39,10 @@ export async function analyzeIOC(type: string, value: string): Promise<any> {
         }
       } catch (err: any) {
         if (i === maxRetries) {
-          console.warn(`[Sentinel Backend] VT Scan Failed after ${maxRetries} retries. Error: ${err.message}`, err.response?.data || "");
+          console.warn(`[TraceX Backend] VT Scan Failed after ${maxRetries} retries. Error: ${err.message}`, err.response?.data || "");
           vtData = { info: "Carrier Scan Delayed or IOC Not Found" };
         } else {
-          console.log(`[Sentinel Backend] VT Retry ${i + 1}...`);
+          console.log(`[TraceX Backend] VT Retry ${i + 1}...`);
           await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Exponential backoff
         }
       }

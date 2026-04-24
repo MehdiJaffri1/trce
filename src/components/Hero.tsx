@@ -1,12 +1,21 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 
 export default function Hero() {
   const navigate = useNavigate();
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
   
   // High-Performance Cloudinary Globe Video for CTI Theme
   const videoUrl = "https://res.cloudinary.com/dwye3tm6z/video/upload/v1776593423/Animate_globe_rotate_202604182304_bkzxtf.mp4";
   const fallbackVideoUrl = "https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-vortex-with-blue-lights-4430-large.mp4";
+
+  useEffect(() => {
+    const handleOpenDemo = () => setIsDemoOpen(true);
+    document.addEventListener('OPEN_DEMO', handleOpenDemo);
+    return () => document.removeEventListener('OPEN_DEMO', handleOpenDemo);
+  }, []);
 
   return (
     <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-black">
@@ -62,7 +71,7 @@ export default function Hero() {
             className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-medium px-4"
           >
             Trace X Enterprise: The next generation of Cyber Threat Intelligence. 
-            Correlate, analyze, and neutralize threats with AI-driven sentinel precision.
+            Correlate, analyze, and neutralize threats with AI-driven intelligence precision.
           </motion.p>
           
           <motion.div 
@@ -79,7 +88,7 @@ export default function Hero() {
             </button>
             
             <button 
-              onClick={() => document.dispatchEvent(new CustomEvent('OPEN_DEMO'))}
+              onClick={() => setIsDemoOpen(true)}
               className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full font-bold text-lg hover:bg-white hover:text-black transition-all"
             >
               Watch Demo
@@ -87,6 +96,41 @@ export default function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {isDemoOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 lg:p-8"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+            >
+              <button 
+                onClick={() => setIsDemoOpen(false)}
+                className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition-all backdrop-blur-md"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/u_vQ-OqS8_4?autoplay=1"
+                title="TraceX Intelligence Demo"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 3D Decorative Element (Optional: Subtle Bottom Glow) */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[20%] bg-cyan-500/10 blur-[120px] rounded-[100%] pointer-events-none" />

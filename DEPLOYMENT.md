@@ -1,4 +1,4 @@
-# Trace X Sentinel - Deployment Guide
+# TraceX Intelligence - Deployment Guide
 
 ## 🚀 Deploying to Vercel
 

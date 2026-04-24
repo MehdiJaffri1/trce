@@ -63,7 +63,7 @@ export default function Navbar() {
         {/* Desktop Auth */}
         <div className="hidden lg:flex items-center gap-6 min-w-[120px] justify-end">
           {!loading && (
-            user && location.pathname !== '/' ? (
+            user ? (
               <>
                 <button 
                   onClick={() => navigate('/dashboard')}
@@ -79,7 +79,7 @@ export default function Navbar() {
                   Logout
                 </button>
               </>
-            ) : !user ? (
+            ) : (
               <>
                 <button 
                   onClick={() => navigate('/login')}
@@ -94,7 +94,7 @@ export default function Navbar() {
                   Sign Up
                 </button>
               </>
-            ) : null
+            )
           )}
         </div>
 
@@ -118,17 +118,17 @@ export default function Navbar() {
           
           <div className="pt-8 border-t border-white/10 flex flex-col gap-4">
             {!loading && (
-              user && location.pathname !== '/' ? (
+              user ? (
                 <>
                   <button onClick={() => { setIsMenuOpen(false); navigate('/dashboard'); }} className="w-full py-4 text-center font-bold text-white">Dashboard</button>
                   <button onClick={handleLogout} className="w-full py-4 text-center font-bold bg-white/5 border border-white/10 rounded-xl text-white">Logout</button>
                 </>
-              ) : !user ? (
+              ) : (
                 <>
                   <button onClick={() => { setIsMenuOpen(false); navigate('/login'); }} className="w-full py-4 text-center font-bold text-white">Login</button>
                   <button onClick={() => { setIsMenuOpen(false); navigate('/signup'); }} className="w-full py-4 text-center font-bold bg-white text-black rounded-xl border border-white">Sign Up</button>
                 </>
-              ) : null
+              )
             )}
           </div>
         </div>

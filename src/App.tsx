@@ -30,7 +30,7 @@ const LoadingScreen = () => (
         <div className="flex items-center gap-2">
           <div className="w-1 h-1 bg-cyan-500 rounded-full animate-ping"></div>
           <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase opacity-70">
-            Initialising Sentinel Stream...
+            Initialising TraceX Intelligence...
           </div>
         </div>
       </div>
@@ -48,7 +48,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 const HomeRoute = () => {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen />;
-  if (user) return <Navigate to="/dashboard" />;
   return (
     <>
       <Navbar />

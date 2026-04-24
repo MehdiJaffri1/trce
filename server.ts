@@ -24,7 +24,7 @@ app.use(express.json());
 const authMiddleware = async (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Sentinel Security: Authentication Required' });
+    return res.status(401).json({ error: 'TraceX Security: Authentication Required' });
   }
 
   const idToken = authHeader.split('Bearer ')[1];
@@ -34,13 +34,13 @@ const authMiddleware = async (req: any, res: any, next: any) => {
     next();
   } catch (error: any) {
     console.error('Auth Error:', error.message);
-    res.status(401).json({ error: 'Sentinel Security: Invalid Session Token' });
+    res.status(401).json({ error: 'TraceX Security: Invalid Session Token' });
   }
 };
 
 // Health Check
 app.get("/api/health", (req, res) => {
-  res.send({ status: "ok", message: "Sentinel SOC Mission Control Running 🚀" });
+  res.send({ status: "ok", message: "TraceX Mission Control Running 🚀" });
 });
 
 // RESTful IOC Lookups
@@ -103,8 +103,8 @@ if (!process.env.VERCEL) {
     }
 
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`[Sentinel SOC] Sentinel active at: http://0.0.0.0:${PORT}`);
-      console.log(`[Sentinel SOC] Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`[TraceX SOC] System active at: http://0.0.0.0:${PORT}`);
+      console.log(`[TraceX SOC] Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   }
   startApp();

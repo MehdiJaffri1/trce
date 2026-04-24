@@ -131,7 +131,7 @@ export default function Landing() {
                 </div>
                 <h3 className="text-4xl font-bold tracking-tight text-white mb-4">Classified Intelligence Access</h3>
                 <p className="text-theme-text-dim text-lg leading-relaxed mb-10">
-                  Real-time threat reconnaissance and mission staging is restricted to registered sentinels.
+                  Real-time threat reconnaissance and mission staging is restricted to authorized operators.
                 </p>
                 <button 
                   onClick={() => navigate('/signup')}

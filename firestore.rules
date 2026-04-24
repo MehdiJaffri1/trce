@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health Check Path
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // --- Primitives ---
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // --- User Profile Security ---
+    // Rule: Users can only read and write their own profile records.
+    match /users/{uid} {
+      allow get: if isOwner(uid);
+      allow list: if false; // Profiles are never listed
+      allow create: if isOwner(uid) && isValidUserProfile(incoming());
+      allow update: if isOwner(uid) && isValidUserProfile(incoming()) && (
+        incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'email'])
+      );
+
+      function isValidUserProfile(data) {
+        return data.uid == request.auth.uid &&
+               data.email is string && data.email.size() <= 256 &&
+               data.displayName is string && data.displayName.size() <= 128 &&
+               (data.createdAt == request.time || data.createdAt == existing().createdAt);
+      }
+    }
+
+    // --- Search History Security ---
+    // Rule: Users can only read and write their own search history.
+    match /searches/{searchId} {
+      // Identity Protection: Explicit evaluation of resource data
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      // Integrity Protection: Strict validation of incoming content
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid && isValidSearchRecord(incoming());
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+
+      function isValidSearchRecord(data) {
+        return data.userId == request.auth.uid &&
+               data.type in ['ip', 'domain', 'hash', 'cve', 'campaign'] &&
+               data.value is string && data.value.size() <= 1024 &&
+               data.threatLevel is string && data.threatLevel.size() <= 128 &&
+               data.confidence is number &&
+               data.timestamp == request.time &&
+               isValidId(searchId);
+      }
+    }
+  }
+}

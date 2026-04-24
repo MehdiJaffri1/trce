@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-theme-bg: #050505;
+  --color-theme-accent: #FFFFFF;
+  --color-theme-gray-dark: #141414;
+  --color-theme-gray-mid: #2A2A2A;
+  --color-theme-text-dim: #888888;
+}
+
+@layer base {
+  body {
+    @apply bg-theme-bg text-theme-accent antialiased selection:bg-white selection:text-black;
+  }
+}
+
+.minimal-card {
+  @apply bg-theme-gray-dark border border-theme-gray-mid transition-all duration-300;
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at 50% 0%, #111111 0%, #050505 100%);
+}
+
+.btn-primary-minimal {
+  @apply bg-white text-black px-6 py-2.5 rounded-[6px] font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98];
+}
+
+.btn-secondary-minimal {
+  @apply bg-transparent text-white px-6 py-2.5 rounded-[6px] font-semibold text-sm border border-theme-gray-mid transition-all hover:bg-white/5 active:scale-[0.98];
+}

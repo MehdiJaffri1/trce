@@ -401,22 +401,67 @@ export default function Dashboard() {
                         {/* Telemetry Status Card */}
                         <div className="p-8 rounded-3xl bg-black border border-white/5 space-y-6 shadow-2xl">
                           <div className="flex items-center gap-2 mb-2">
-                            <Server className="w-4 h-4 text-emerald-500" />
-                            <span className="text-[10px] font-black uppercase text-white/40 tracking-widest">Ground Intelligence Status</span>
+                            <Server className="w-4 h-4 text-cyan-500" />
+                            <span className="text-[10px] font-black uppercase text-white/40 tracking-widest">Ground Intelligence Matrix</span>
                           </div>
-                          <div className="space-y-4">
-                            <div className="flex justify-between items-center text-[10px]">
-                              <span className="font-bold text-white/60 uppercase">VirusTotal Relay</span>
-                              <span className={`font-mono ${result.raw.vt?.info ? 'text-white/20' : 'text-emerald-400 animate-pulse'}`}>{result.raw.vt?.info ? 'OFFLINE' : 'ONLINE'}</span>
+                          
+                          <div className="space-y-3">
+                            {/* VirusTotal */}
+                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/[0.02] border border-white/5 group hover:border-cyan-500/30 transition-all">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-white/60 uppercase">VirusTotal</span>
+                                <span className="text-[8px] font-mono text-cyan-500/50 uppercase tracking-tighter">Global Engine Scan</span>
+                              </div>
+                              <div className="text-right">
+                                <div className={`text-xs font-mono font-black ${result.raw.vt?.last_analysis_stats?.malicious > 0 ? 'text-red-500' : 'text-emerald-400'}`}>
+                                  {result.raw.vt?.last_analysis_stats?.malicious ?? '0'} DETECTIONS
+                                </div>
+                              </div>
                             </div>
-                            <div className="flex justify-between items-center text-[10px]">
-                              <span className="font-bold text-white/60 uppercase">Gemini Correlator</span>
-                              <span className="text-emerald-400 font-mono animate-pulse">OPTIMIZED</span>
+
+                            {/* AbuseIPDB */}
+                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/[0.02] border border-white/5 group hover:border-cyan-500/30 transition-all">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-white/60 uppercase">AbuseIPDB</span>
+                                <span className="text-[8px] font-mono text-cyan-500/50 uppercase tracking-tighter">Confidence Score</span>
+                              </div>
+                              <div className="text-right">
+                                <div className={`text-xs font-mono font-black ${result.raw.abuseipdb?.abuseConfidenceScore > 20 ? 'text-orange-500' : 'text-emerald-400'}`}>
+                                  {result.raw.abuseipdb?.abuseConfidenceScore ?? '0'}% SCORE
+                                </div>
+                              </div>
                             </div>
-                            <div className="flex justify-between items-center text-[10px]">
-                              <span className="font-bold text-white/60 uppercase">Pipeline Latency</span>
-                              <span className="text-cyan-400 font-mono">{(performance.now() / 10000 % 100).toFixed(2)}ms</span>
+
+                            {/* Shodan */}
+                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/[0.02] border border-white/5 group hover:border-cyan-500/30 transition-all">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-white/60 uppercase">Shodan</span>
+                                <span className="text-[8px] font-mono text-cyan-500/50 uppercase tracking-tighter">Exposed Services</span>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xs font-mono font-black text-cyan-400">
+                                  {result.raw.shodan?.ports?.length ?? '0'} PORTS
+                                </div>
+                              </div>
                             </div>
+
+                            {/* OTX AlienVault */}
+                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/[0.02] border border-white/5 group hover:border-cyan-500/30 transition-all">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-white/60 uppercase">OTX AlienVault</span>
+                                <span className="text-[8px] font-mono text-cyan-500/50 uppercase tracking-tighter">Pulse Correlations</span>
+                              </div>
+                              <div className="text-right">
+                                <div className={`text-xs font-mono font-black ${result.raw.otx?.pulse_info?.count > 0 ? 'text-red-500' : 'text-emerald-400'}`}>
+                                  {result.raw.otx?.pulse_info?.count ?? '0'} PULSES
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="pt-4 border-t border-white/5 flex justify-between items-center text-[10px]">
+                            <span className="font-bold text-white/40 uppercase">Network Sync</span>
+                            <span className="text-emerald-400 font-mono animate-pulse">OPTIMIZED</span>
                           </div>
                         </div>
                       </div>

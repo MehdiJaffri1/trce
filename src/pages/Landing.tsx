@@ -76,7 +76,7 @@ export default function Landing() {
               </div>
               <div className="flex items-center gap-4 text-gray-300 font-medium">
                 <MapPin className="w-5 h-5 text-cyan-400" />
-                <span>Karachi</span>
+                <span>NED University Of Engineering & Technology, Karachi</span>
               </div>
             </div>
           </div>

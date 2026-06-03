@@ -120,7 +120,7 @@ export default function Hero() {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://youtu.be/34PQDMnXggE?si=k7a8WlILZDpBvQ0h"
+                src="https://www.youtube.com/embed/34PQDMnXggE?autoplay=1&rel=0"
                 title="TraceX Intelligence Demo"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
